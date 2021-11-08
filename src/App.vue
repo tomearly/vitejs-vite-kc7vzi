@@ -57,7 +57,7 @@ export default {
 <strong>{{ error.$message }}</strong>
 </p>
 
-<pre>{{ v$ }}</pre>
+<!-- <pre>{{ v$ }}</pre> -->
   </div>
 </template>
 
