@@ -1,33 +1,65 @@
-<script setup>
+<script>
 import { useVuelidate } from '@vuelidate/core'
-import CompA from '@/components/CompA'
-import CompB from '@/components/CompB'
+import { required, email } from '@vuelidate/validators'
+import { reactive } from 'vue'
 
 export default {
-  components: { CompA, CompB },
   setup () {
-    // this will collect all nested component’s validation results
-    const v = useVuelidate()
+    const state = reactive({
+      firstName: '',
+      lastName: '',
+      contact: {
+        email: ''
+      }
+    })
+    const rules = {
+      firstName: { required }, // Matches state.firstName
+      lastName: { required }, // Matches state.lastName
+      contact: {
+        email: { required, email } // Matches state.contact.email
+      }
+    }
 
-    return { v }
+    const v$ = useVuelidate(rules, state)
+
+    return { state, v$ }
   }
 }
 </script>
 
-<template>
+<template> 
   <div>
     <label>
-      <input v-model="name">
-      <div v-if="v$.name.$error">Name field has an error.</div>
+      First name
     </label>
-    <!-- this will contain all $errors and $silentErrors from both <CompA> and <CompB>-->
-    <p v-for="error of v.$errors" :key="error.$uid">
-      {{ error.$message }}
-    </p>
+      <input v-model="state.firstName" @blur="v$.firstName.$touch">
+      <div v-if="v$.firstName.$error">Firstname field has an error.</div>
+    <label>
+      Last name
+    </label>
+      <input v-model="state.lastName" @blur="v$.lastName.$touch">
+      <div v-if="v$.lastName.$error">Lastname field has an error.</div>
+    <label>
+      Email
+    </label>
+      <input v-model="state.contact.email" @blur="v$.contact.email.$touch">
+      <div v-if="v$.contact.email.$error">Email field has an error.</div>
+
+      <hr>
+<p
+  v-for="error of v$.$errors"
+  :key="error.$uid"
+>
+<strong>{{ error.$validator }}</strong>
+<small> on property</small>
+<strong>{{ error.$property }}</strong>
+<small> says:</small>
+<strong>{{ error.$message }}</strong>
+</p>
+
+<pre>{{ v$ }}</pre>
   </div>
 </template>
-
-<script>
 
 <style>
 #app {
