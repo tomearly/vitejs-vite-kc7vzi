@@ -5,6 +5,7 @@ import HelloWorld from './components/HelloWorld.vue';
 </script>
 
 <template>
+  <h3>Page 404</h3>
   <HelloWorld msg="Hello Vue 3 + Vite" />
 </template>
 
