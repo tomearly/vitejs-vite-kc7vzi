@@ -29,20 +29,20 @@ export default {
 
 <template> 
   <div>
-    <label>
+    <label for="firstName">
       First name
     </label>
-      <input v-model="state.firstName" @blur="v$.firstName.$touch">
+      <input id="firstName" v-model="state.firstName" @blur="v$.firstName.$touch">
       <div v-if="v$.firstName.$error">Firstname field has an error.</div>
-    <label>
+    <label for="lastName">
       Last name
     </label>
-      <input v-model="state.lastName" @blur="v$.lastName.$touch">
+      <input id="lastName" v-model="state.lastName" @blur="v$.lastName.$touch">
       <div v-if="v$.lastName.$error">Lastname field has an error.</div>
-    <label>
+    <label for="email">
       Email
     </label>
-      <input v-model="state.contact.email" @blur="v$.contact.email.$touch">
+      <input id="email" v-model="state.contact.email" @blur="v$.contact.email.$touch">
       <div v-if="v$.contact.email.$error">Email field has an error.</div>
 
       <hr>
