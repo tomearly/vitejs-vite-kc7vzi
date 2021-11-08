@@ -1,13 +1,33 @@
 <script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue';
+import { useVuelidate } from '@vuelidate/core'
+import CompA from '@/components/CompA'
+import CompB from '@/components/CompB'
+
+export default {
+  components: { CompA, CompB },
+  setup () {
+    // this will collect all nested component’s validation results
+    const v = useVuelidate()
+
+    return { v }
+  }
+}
 </script>
 
 <template>
-  <h3>Page 404</h3>
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+  <div>
+    <label>
+      <input v-model="name">
+      <div v-if="v$.name.$error">Name field has an error.</div>
+    </label>
+    <!-- this will contain all $errors and $silentErrors from both <CompA> and <CompB>-->
+    <p v-for="error of v.$errors" :key="error.$uid">
+      {{ error.$message }}
+    </p>
+  </div>
 </template>
+
+<script>
 
 <style>
 #app {
